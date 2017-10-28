@@ -13,7 +13,7 @@ class ApiService {
     data.append('name', name);
     data.append('file', file);
 
-    return axios.put('/upload', data);
+    return axios.post('http://localhost:3000/uploads', data);
   }
 }
 
