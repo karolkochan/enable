@@ -1,0 +1,31 @@
+//:global {
+//  html, body {
+//    font-weight: normal;
+//    font-family: "Roboto", Helvetica, Arial, sans-serif;
+//    height: 100%;
+//    max-height: 100%;
+//    background: #222222; //#dfdfe1;
+//    color: #ffffff;
+//    overflow: hidden;
+//    -webkit-overflow-scrolling: auto;
+//    -webkit-font-smoothing: antialiased;
+//    -moz-osx-font-smoothing: grayscale;
+//  }
+//
+//  /* Application container - we define it as global, because it is not reachable from app component */
+//  #app {
+//    height: 100%;
+//    max-height: 100%;
+//    display: flex;
+//    flex-direction: column;
+//    overflow: hidden;
+//
+//    & > [data-reactroot] {
+//      height: 100%;
+//    }
+//  }
+//
+//  .flex {
+//    flex: 1;
+//  }
+//}
