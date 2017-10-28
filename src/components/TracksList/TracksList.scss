@@ -1,0 +1,31 @@
+.list {
+  padding: 80px;
+}
+
+.card {
+  display: flex;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1 0 auto;
+}
+
+.cover {
+  width: 151px;
+  height: 151px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.playIcon {
+  height: 38px;
+  width: 38px;
+}
