@@ -1,9 +1,13 @@
 import axios from 'axios';
 
+const HOST = 'http://localhost';
+const PORT = 3000;
+const BASE = `${HOST}:${PORT}`;
+
 class ApiService {
   constructor() {
     this.client = axios.create({
-      baseURL: 'localhost:3000',
+      baseURL: BASE,
       responseType: 'json'
     });
   }
@@ -13,11 +17,11 @@ class ApiService {
     data.append('name', name);
     data.append('file', file);
 
-    return axios.post('http://localhost:3000/uploads', data);
+    return axios.post(`${BASE}/uploads`, data);
   }
 
   updateTrack(id, data) {
-    return axios.put(`/track/${id}`, data);
+    return axios.put(`${BASE}/track/${id}`, data);
   }
 }
 
