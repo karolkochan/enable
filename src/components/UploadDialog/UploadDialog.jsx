@@ -78,6 +78,8 @@ export default class UploadDialog extends React.Component {
     return (
       <form onSubmit={this.handleRequestSubmit}>
         <Dialog
+          ignoreBackdropClick={true}
+          ignoreEscapeKeyUp={true}
           open={this.props.open}
           transition={<Slide direction="up"/>}
           keepMounted

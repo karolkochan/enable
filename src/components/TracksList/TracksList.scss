@@ -1,5 +1,38 @@
-.list {
+.content {
+  display: flex;
+}
+
+.buttonFull {
+  width: 100%;
+  padding: 0;
+  border-radius: 2px;
+  text-align: left;
+
+  & > * {
+    width: 100%;
+  }
+}
+
+.card > * {
+  padding: 16px !important;
+}
+
+.avatar {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  width: 56px !important;
+  height: 56px !important;
+}
+
+ul.list {
+  list-style: none;
   padding: 80px;
+  margin: auto;
+
+  & > li {
+    width: 420px;
+    margin: 8px 0;
+  }
 }
 
 .card {

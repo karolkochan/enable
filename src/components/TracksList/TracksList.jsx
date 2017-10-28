@@ -1,60 +1,67 @@
 // @flow weak
 
 import React from 'react';
-import Card, {CardContent, CardMedia} from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-import SkipPreviousIcon from 'material-ui-icons/SkipPrevious';
-import PlayArrowIcon from 'material-ui-icons/PlayArrow';
-import SkipNextIcon from 'material-ui-icons/SkipNext';
+import Card, {CardHeader} from 'material-ui/Card';
+import ButtonBase from 'material-ui/ButtonBase';
+import Avatar from 'material-ui/Avatar';
 
 import styles from './TracksList.scss';
 
 const tracks = [
   {
     id: 1,
-    name: 'Track 1'
+    distance: 5.2,
+    date: '15.09.2017',
+    name: 'Blonia'
   },
   {
     id: 2,
-    name: 'Track 2'
+    distance: 7.2,
+    date: '22.06.2017',
+    name: 'Bulwary wislane'
   },
   {
     id: 3,
-    name: 'Track 3'
+    distance: 3.8,
+    date: '02.05.2017',
+    name: 'Blonia one more time'
   },
   {
     id: 4,
-    name: 'Track 4'
+    distance: 22.4,
+    date: '29.01.2017',
+    name: 'Jordan Park'
   }
 ];
 
-function TracksList() {
-  return (
-    <div className={styles.list}>
-      {tracks.map((track) =>
-        <div key={track.id}>
-          <Card className={styles.card}>
-            <div className={styles.details}>
-              <CardContent className={styles.content}>
-                <Typography type="headline">Live From Space</Typography>
-                <Typography type="subheading" color="secondary">
-                  Mac Miller
-                </Typography>
-              </CardContent>
-              <div className={styles.controls}>
-              </div>
-            </div>
-            <CardMedia
-              className={styles.cover}
-              image="/static/images/cards/live-from-space.jpg"
-              title="Live from space album cover"
-            />
-          </Card>
-        </div>
-      )}
-    </div>
-  );
-}
+export default class TracksList extends React.Component {
+  handleTrackClick = () => {
+    console.log('click');
+  }
 
-export default TracksList;
+  render() {
+    return (
+      <div className={styles.content}>
+        <ul className={styles.list}>
+          {tracks.map((track) =>
+            <li key={track.id}>
+              <ButtonBase className={styles.buttonFull} onClick={this.handleTrackClick}>
+                <Card className={styles.card}>
+                  <CardHeader
+                    avatar={
+                      <Avatar aria-label="Recipe" className={styles.avatar}>
+                        {track.distance}km
+                      </Avatar>
+                    }
+                    title={track.name}
+                    subheader={track.date}
+                  />
+                </Card>
+              </ButtonBase>
+            </li>
+          )}
+        </ul>
+      </div>
+    );
+  }
+}
