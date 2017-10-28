@@ -85,7 +85,7 @@ export default class UploadDialog extends React.Component {
           keepMounted
           onRequestClose={this.handleRequestClose}
         >
-          <DialogTitle>Upload CSV</DialogTitle>
+          <DialogTitle>Upload GPX</DialogTitle>
           <DialogContent className={styles.content}>
             <TextField
               autoFocus
@@ -109,7 +109,7 @@ export default class UploadDialog extends React.Component {
                 inputRef={(ref) => this.fileInput = ref}
                 type="file"
                 onChange={this.handleFileChange}
-                inputProps={{accept: '.csv'}}
+                inputProps={{accept: '.gpx'}}
                 disabled={progress}
                 fullWidth
               />
