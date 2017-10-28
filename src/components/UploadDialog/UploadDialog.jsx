@@ -127,7 +127,7 @@ export default class UploadDialog extends React.Component {
               Upload
             </Button>
           </DialogActions>
-          {progress ? <LinearProgress/> : null}
+          {progress ? <LinearProgress color="accent"/> : null}
         </Dialog>
       </form>
     );

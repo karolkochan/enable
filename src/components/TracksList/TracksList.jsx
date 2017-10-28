@@ -1,6 +1,7 @@
 // @flow weak
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Card, {CardHeader} from 'material-ui/Card';
 import ButtonBase from 'material-ui/ButtonBase';
 import Avatar from 'material-ui/Avatar';
@@ -35,17 +36,15 @@ const tracks = [
 ];
 
 export default class TracksList extends React.Component {
-  handleTrackClick = () => {
-    console.log('click');
-  }
-
   render() {
+    const {onTrackSelect} = this.props;
+
     return (
       <div className={styles.content}>
         <ul className={styles.list}>
           {tracks.map((track) =>
             <li key={track.id}>
-              <ButtonBase className={styles.buttonFull} onClick={this.handleTrackClick}>
+              <ButtonBase className={styles.buttonFull} onClick={() => onTrackSelect(track.id)}>
                 <Card className={styles.card}>
                   <CardHeader
                     avatar={
@@ -65,3 +64,7 @@ export default class TracksList extends React.Component {
     );
   }
 }
+
+TracksList.propTypes = {
+  onTrackSelect: PropTypes.func.isRequired
+};

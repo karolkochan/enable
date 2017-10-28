@@ -15,6 +15,10 @@ class ApiService {
 
     return axios.put('/upload', data);
   }
+
+  updateTrack(id, data) {
+    return axios.put(`/track/${id}`, data);
+  }
 }
 
 export default new ApiService();
