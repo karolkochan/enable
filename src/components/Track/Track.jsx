@@ -36,6 +36,7 @@ const RATINGS = [1, 2, 3, 4, 5];
 
 export default class Track extends React.Component {
   flightPath;
+  flightMarkers;
 
   constructor(props) {
     super(props);
@@ -50,11 +51,26 @@ export default class Track extends React.Component {
     const {map, track} = this.props;
     const {lat, lon} = track.points[0];
 
-    const flightPlanCoordinates = track.points.map((point) => ({
-      lat: parseFloat(point.lat),
-      lng: parseFloat(point.lon)
-    }));
-    console.log(flightPlanCoordinates);
+    const flightPlanCoordinates = [];
+    this.flightMarkers = [];
+    track.points.forEach((point) => {
+      flightPlanCoordinates.push({
+        lat: parseFloat(point.lat),
+        lng: parseFloat(point.lon)
+      });
+
+      if (point.extreme === true) {
+        this.flightMarkers.push(
+          new google.maps.Marker({
+            position: {
+              lat: parseFloat(point.lat),
+              lng: parseFloat(point.lon)
+            },
+            map: map
+          })
+        );
+      }
+    });
 
     this.flightPath = new google.maps.Polyline({
       path: flightPlanCoordinates,
@@ -75,6 +91,7 @@ export default class Track extends React.Component {
 
   componentWillUnmount() {
     this.flightPath.setMap(null);
+    this.flightMarkers.forEach((marker) => marker.setMap(null));
   }
 
   handleToggle = (prop) => {
@@ -131,11 +148,11 @@ export default class Track extends React.Component {
               <div>
                 {RATINGS.map((level) =>
                   <IconButton key={level}
-                    className={styles.star}
-                    color={level <= difficult_level ? 'accent' : 'default'}
-                    aria-label={`Rate ${level}`}
-                    onClick={() => this.handleDifficultLevel(level)}>
-                    <StarIcon />
+                              className={styles.star}
+                              color={level <= difficult_level ? 'accent' : 'default'}
+                              aria-label={`Rate ${level}`}
+                              onClick={() => this.handleDifficultLevel(level)}>
+                    <StarIcon/>
                   </IconButton>
                 )}
               </div>

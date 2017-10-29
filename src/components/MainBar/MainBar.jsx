@@ -128,7 +128,7 @@ export default class MainBar extends React.Component {
     }
 
     return (
-      <div className={styles.root}>
+      <div className={`${styles.root} ${this.props.className}`}>
         <AppBar position="static">
           {bar}
         </AppBar>
@@ -143,5 +143,6 @@ MainBar.propTypes = {
   track: PropTypes.object,
   filter: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
-  onFilter: PropTypes.func.isRequired
+  onFilter: PropTypes.func.isRequired,
+  className: PropTypes.string
 };
