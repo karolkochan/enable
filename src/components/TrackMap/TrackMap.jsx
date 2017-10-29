@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './TrackMap.scss';
+import mapStyle from './mapStyle';
 
 export default class TrackMap extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ export default class TrackMap extends React.Component {
     this.map = new google.maps.Map(document.getElementById('map'), {
       zoom: 3,
       center: {lat: 0, lng: -180},
-      mapTypeId: 'terrain'
+      mapTypeId: 'terrain',
+      styles: mapStyle
     });
 
     this.props.registerMap(this.map);

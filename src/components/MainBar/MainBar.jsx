@@ -70,6 +70,13 @@ export default class MainBar extends React.Component {
     }));
   }
 
+  onRedirect = (id) => {
+    this.setState({
+      uploadOpen: false
+    });
+    setTimeout(() => this.props.onRedirect(id), 100);
+  }
+
   render() {
     const {uploadOpen, filterOpen, menuAnchor} = this.state;
     const {track, onBack, filter} = this.props;
@@ -133,7 +140,7 @@ export default class MainBar extends React.Component {
           {bar}
         </AppBar>
 
-        <UploadDialog open={uploadOpen} onClose={this.handleDialogClose}/>
+        <UploadDialog open={uploadOpen} onClose={this.handleDialogClose} onRedirect={this.onRedirect}/>
       </div>
     );
   }
@@ -144,5 +151,6 @@ MainBar.propTypes = {
   filter: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
   onFilter: PropTypes.func.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  onRedirect: PropTypes.func.isRequired
 };

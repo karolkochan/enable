@@ -26,7 +26,7 @@ export default class TracksList extends React.Component {
                   <CardHeader
                     avatar={
                       <Avatar aria-label="Recipe" className={styles.avatar}>
-                        {track.distance}km
+                        #{track.id}
                       </Avatar>
                     }
                     title={track.name}

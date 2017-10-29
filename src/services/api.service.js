@@ -15,11 +15,12 @@ class ApiService {
   }
 
   upload({name, file}) {
-    const data = new FormData();
-    data.append('name', name);
-    data.append('file', file);
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('file', file);
 
-    return axios.post(`${BASE}/uploads`, data);
+    return axios.post(`${BASE}/uploads`, formData)
+      .then(({data}) => data);
   }
 
   download(id) {

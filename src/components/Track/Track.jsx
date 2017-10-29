@@ -75,9 +75,9 @@ export default class Track extends React.Component {
     this.flightPath = new google.maps.Polyline({
       path: flightPlanCoordinates,
       geodesic: true,
-      strokeColor: '#ff4081',
+      strokeColor: '#004aff',
       strokeOpacity: 1.0,
-      strokeWeight: 3
+      strokeWeight: 2
     });
 
     this.flightPath.setMap(map);
@@ -86,7 +86,7 @@ export default class Track extends React.Component {
       lat: parseFloat(lat),
       lng: parseFloat(lon)
     });
-    map.setZoom(12);
+    map.setZoom(14);
   }
 
   componentWillUnmount() {
@@ -130,33 +130,38 @@ export default class Track extends React.Component {
   render() {
     const {difficult_level, progress} = this.state;
 
+
     return (
       <div className={styles.content}>
         {progress ? <LinearProgress color="accent"/> : null}
         <Paper className={styles.configurator} elevation={4}>
           <List className={styles.list}>
-            <ListSubheader>Friendly for</ListSubheader>
-            {DISABILITIES.map(({type, label}) =>
-              <ListItem dense button onClick={() => this.handleToggle(type)} className={styles.listElement} key={type}>
-                <Checkbox checked={this.state[type]} tabIndex={-1} disableRipple color="accent"/>
-                <ListItemText primary={label} className={styles.label}/>
-              </ListItem>
-            )}
-            <Divider/>
             <ListSubheader>Difficulty level</ListSubheader>
             <ListItem dense className={styles.listElement}>
               <div>
                 {RATINGS.map((level) =>
                   <IconButton key={level}
-                              className={styles.star}
-                              color={level <= difficult_level ? 'accent' : 'default'}
-                              aria-label={`Rate ${level}`}
-                              onClick={() => this.handleDifficultLevel(level)}>
+                    className={styles.star}
+                    color={level <= difficult_level ? 'accent' : 'default'}
+                    aria-label={`Rate ${level}`}
+                    onClick={() => this.handleDifficultLevel(level)}>
                     <StarIcon/>
                   </IconButton>
                 )}
               </div>
             </ListItem>
+            <Divider/>
+            <ListSubheader>Friendly for</ListSubheader>
+            {DISABILITIES.map(({type, label}) =>
+              <ListItem dense button onClick={() => this.handleToggle(type)} className={styles.listElement} key={type}>
+                <Checkbox checked={this.state[type]}
+                  onChange={(event) => event.preventDefault()}
+                  tabIndex={-1}
+                  disableRipple
+                  color="accent"/>
+                <ListItemText primary={label} className={styles.label}/>
+              </ListItem>
+            )}
           </List>
         </Paper>
       </div>

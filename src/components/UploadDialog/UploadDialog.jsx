@@ -17,7 +17,6 @@ export default class UploadDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
       fileName: '',
       progress: false
     };
@@ -40,25 +39,35 @@ export default class UploadDialog extends React.Component {
   handleFileChange = (event) => {
     const file = event.target.files && event.target.files.length === 1 ? event.target.files[0] : null;
 
-    this.setState({
-      fileName: file ? file.name : null,
-      file: file
-    });
+    if (file) {
+      this.setState({
+        fileName: file.name,
+        file: file
+      });
+      setTimeout(() => this.handleRequestSubmit(null, file), 100);
+    } else {
+      this.setState({
+        fileName: null,
+        file: null
+      });
+    }
   };
 
   handleRequestSubmit = (event) => {
-    const {name, file} = this.state;
+    const {file} = this.state;
 
-    if (name && file) {
+    if (file) {
       this.setState({
         progress: true
       });
 
-      api.upload({name, file})
-        .then(() => {
+      api.upload({file})
+        .then(({id}) => {
           this.setState({
             progress: false
           });
+          // console.log(data);
+          setTimeout(() => this.props.onRedirect(id), 100);
         })
         .catch(() => {
           this.setState({
@@ -67,11 +76,11 @@ export default class UploadDialog extends React.Component {
         });
     }
 
-    event.preventDefault();
+    event && event.preventDefault();
   }
 
   render = () => {
-    const {file, fileName, name, progress} = this.state;
+    const {file, fileName, progress} = this.state;
 
     return (
       <form onSubmit={this.handleRequestSubmit}>
@@ -80,21 +89,12 @@ export default class UploadDialog extends React.Component {
           ignoreEscapeKeyUp={true}
           open={this.props.open}
           transition={<Slide direction="up"/>}
+          onEntered={this.handleFileClick}
           keepMounted
           onRequestClose={this.handleRequestClose}
         >
           <DialogTitle>Upload GPX</DialogTitle>
           <DialogContent className={styles.content}>
-            <TextField
-              autoFocus
-              margin="normal"
-              id="name"
-              label="Track name"
-              type="text"
-              disabled={progress}
-              onChange={this.handleNameChange}
-              fullWidth
-            />
             <Button raised
               color="primary"
               className={styles.uploadButton}
@@ -120,7 +120,7 @@ export default class UploadDialog extends React.Component {
               Cancel
             </Button>
             <Button onClick={this.handleRequestSubmit}
-              disabled={!file || !name || progress}
+              disabled={!file || progress}
               color="primary">
               Upload
             </Button>
@@ -134,5 +134,6 @@ export default class UploadDialog extends React.Component {
 
 UploadDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func
+  onRedirect: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
 };
