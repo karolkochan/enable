@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
 import List, {ListItem, ListItemText, ListSubheader} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
@@ -20,11 +21,11 @@ const DISABILITIES = [
     label: 'Crutches'
   },
   {
-    type: 'wheelchairTetraplegia',
+    type: 'wheelchair_tetraplegia',
     label: 'Wheelchair tetraplegia'
   },
   {
-    type: 'wheelchairParaplegia',
+    type: 'wheelchair_paraplegia',
     label: 'Wheelchair paraplegia'
   }
 ];
@@ -34,18 +35,11 @@ const RATINGS = [1, 2, 3, 4, 5];
 export default class Track extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: 1,
-      distance: 5.2,
-      rating: 3,
-      date: '15.09.2017',
-      name: 'Blonia',
-      prosthesis: false,
-      crutches: true,
-      wheelchairTetraplegia: false,
-      wheelchairParaplegia: false,
-      progress: false
-    };
+    const defaults = DISABILITIES.reduce((map, {type}) => {
+      map[type] = false;
+      return map;
+    }, {difficult_level: 5});
+    this.state = Object.assign({}, defaults, props.track);
   }
 
   handleToggle = (prop) => {
@@ -54,32 +48,35 @@ export default class Track extends React.Component {
       [prop]: !this.state[prop]
     });
 
-    const {id, prosthesis, crutches, wheelchairTetraplegia, wheelchairParaplegia, rating} = this.state;
+    const {id, prosthesis, crutches, wheelchair_tetraplegia, wheelchair_paraplegia, difficult_level} = this.state;
     api
-      .updateTrack(id, Object.assign({}, {prosthesis, crutches, wheelchairTetraplegia, wheelchairParaplegia, rating}, {
-        [prop]: !this.state[prop]
-      }))
+      .updateTrack(id, Object.assign(
+        {},
+        {prosthesis, crutches, wheelchair_tetraplegia, wheelchair_paraplegia, difficult_level: difficult_level},
+        {[prop]: !this.state[prop]}
+      ))
       .then(() => this.setState({progress: false}))
       .catch(() => this.setState({progress: false}));
   }
 
-  handleRate = (rate) => {
+  handleDifficultLevel = (difficult_level) => {
     this.setState({
       progress: true,
-      rating: rate
+      difficult_level: difficult_level
     });
 
-    const {id, prosthesis, crutches, wheelchairTetraplegia, wheelchairParaplegia, rating} = this.state;
+    const {id, prosthesis, crutches, wheelchair_tetraplegia, wheelchair_paraplegia} = this.state;
     api
-      .updateTrack(id, Object.assign({}, {prosthesis, crutches, wheelchairTetraplegia, wheelchairParaplegia, rating}, {
-        rating: rate
-      }))
+      .updateTrack(
+        id,
+        {prosthesis, crutches, wheelchair_tetraplegia, wheelchair_paraplegia, difficult_level: difficult_level}
+      )
       .then(() => this.setState({progress: false}))
       .catch(() => this.setState({progress: false}));
   }
 
   render() {
-    const {rating, progress} = this.state;
+    const {difficult_level, progress} = this.state;
 
     return (
       <div className={styles.content}>
@@ -97,12 +94,12 @@ export default class Track extends React.Component {
             <ListSubheader>Rating</ListSubheader>
             <ListItem dense className={styles.listElement}>
               <div>
-                {RATINGS.map((rate) =>
-                  <IconButton key={rate}
+                {RATINGS.map((level) =>
+                  <IconButton key={level}
                     className={styles.star}
-                    color={rate <= rating ? 'accent' : 'default'}
-                    aria-label={`Rate ${rate}`}
-                    onClick={() => this.handleRate(rate)}>
+                    color={level <= difficult_level ? 'accent' : 'default'}
+                    aria-label={`Rate ${level}`}
+                    onClick={() => this.handleDifficultLevel(level)}>
                     <StarIcon />
                   </IconButton>
                 )}
@@ -114,3 +111,7 @@ export default class Track extends React.Component {
     );
   }
 }
+
+Track.propTypes = {
+  track: PropTypes.object.isRequired
+};

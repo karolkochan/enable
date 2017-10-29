@@ -1,8 +1,10 @@
 import axios from 'axios';
+import querystring from 'querystring';
 
-const HOST = 'http://localhost';
-const PORT = 3000;
-const BASE = `${HOST}:${PORT}`;
+// const HOST = 'http://localhost';
+// const PORT = 3000;
+// const BASE = `${HOST}:${PORT}`;
+const BASE = 'http://2b935f05.ngrok.io'; // `${HOST}:${PORT}`;
 
 class ApiService {
   constructor() {
@@ -20,8 +22,33 @@ class ApiService {
     return axios.post(`${BASE}/uploads`, data);
   }
 
+  index() {
+    return axios.get(`${BASE}/routes`)
+      .then(({data}) => data);
+  }
+
+  getTracks(query) {
+    const queryTrue = Object.keys(query).reduce((q, key) => {
+      if (query[key] === true) {
+        q[key] = query[key];
+      }
+      return q;
+    }, {});
+    if (Object.keys(queryTrue).length === 0) {
+      return this.index();
+    }
+    const queryStr = querystring.stringify(queryTrue);
+    return axios.get(`${BASE}/routes/filter?${queryStr}`)
+      .then(({data}) => data);
+  }
+
+  getTrack(id) {
+    return axios.get(`${BASE}/routes/${id}`)
+      .then(({data}) => Object.assign({}, data, {id}));
+  }
+
   updateTrack(id, data) {
-    return axios.put(`${BASE}/track/${id}`, data);
+    return axios.put(`${BASE}/routes/${id}`, data);
   }
 }
 

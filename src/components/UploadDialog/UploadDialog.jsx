@@ -56,13 +56,11 @@ export default class UploadDialog extends React.Component {
 
       api.upload({name, file})
         .then(() => {
-          console.log('uploaded');
           this.setState({
             progress: false
           });
         })
-        .catch((error) => {
-          console.log('error', error);
+        .catch(() => {
           this.setState({
             progress: false
           });
