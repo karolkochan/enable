@@ -5,6 +5,7 @@ import styles from './App.scss';
 import Track from '../components/Track/Track';
 import {LinearProgress} from 'material-ui/Progress';
 import api from '../services/api.service';
+import TrackMap from '../components/TrackMap/TrackMap';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -59,6 +60,12 @@ export default class App extends React.Component {
       });
   }
 
+  registerMap = (map) => {
+    this.setState({
+      map: map
+    });
+  }
+
   handleShowList = () => {
     this.setState({
       id: null,
@@ -68,7 +75,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const {tracks, track, progress, filter} = this.state;
+    const {tracks, track, progress, filter, map} = this.state;
 
     return (
       <div className={styles.root}>
@@ -79,8 +86,9 @@ export default class App extends React.Component {
           onFilter={this.search}></MainBar>
         {progress ? <LinearProgress color="accent"/> : null}
         <div className={styles.scrollable}>
-          {tracks ? <TracksList tracks={tracks} onTrackSelect={this.handleShowTrack}></TracksList> : null}
-          {track ? <Track track={track}></Track> : null}
+          <TrackMap className={styles.map} registerMap={this.registerMap}></TrackMap>
+          {tracks && map ? <TracksList tracks={tracks} onTrackSelect={this.handleShowTrack}></TracksList> : null}
+          {track && map ? <Track track={track} map={map}></Track> : null}
         </div>
       </div>
     );

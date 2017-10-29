@@ -1,3 +1,5 @@
+/* global google */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Divider from 'material-ui/Divider';
@@ -33,6 +35,8 @@ const DISABILITIES = [
 const RATINGS = [1, 2, 3, 4, 5];
 
 export default class Track extends React.Component {
+  flightPath;
+
   constructor(props) {
     super(props);
     const defaults = DISABILITIES.reduce((map, {type}) => {
@@ -40,6 +44,37 @@ export default class Track extends React.Component {
       return map;
     }, {difficult_level: 5});
     this.state = Object.assign({}, defaults, props.track);
+  }
+
+  componentDidMount() {
+    const {map, track} = this.props;
+    const {lat, lon} = track.points[0];
+
+    const flightPlanCoordinates = track.points.map((point) => ({
+      lat: parseFloat(point.lat),
+      lng: parseFloat(point.lon)
+    }));
+    console.log(flightPlanCoordinates);
+
+    this.flightPath = new google.maps.Polyline({
+      path: flightPlanCoordinates,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+
+    this.flightPath.setMap(map);
+
+    map.setCenter({
+      lat: parseFloat(lat),
+      lng: parseFloat(lon)
+    });
+    map.setZoom(12);
+  }
+
+  componentWillUnmount() {
+    this.flightPath.setMap(null);
   }
 
   handleToggle = (prop) => {
@@ -113,5 +148,6 @@ export default class Track extends React.Component {
 }
 
 Track.propTypes = {
-  track: PropTypes.object.isRequired
+  track: PropTypes.object.isRequired,
+  map: PropTypes.any.isRequired
 };
