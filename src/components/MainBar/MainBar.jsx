@@ -9,12 +9,14 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import ArrowBack from 'material-ui-icons/ArrowBack';
 import CloudUploadIcon from 'material-ui-icons/CloudUpload';
+import CloudDownloadIcon from 'material-ui-icons/CloudDownload';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import Menu, {MenuItem} from 'material-ui/Menu';
 import Checkbox from 'material-ui/Checkbox';
 
 import styles from './MainBar.scss';
 import UploadDialog from '../UploadDialog/UploadDialog';
+import api from '../../services/api.service';
 
 const FILTER_NAME = {
   prosthesis: 'Prosthesis',
@@ -36,6 +38,10 @@ export default class MainBar extends React.Component {
     this.setState({
       uploadOpen: true
     });
+  };
+
+  handleClickDownload = () => {
+    api.download(this.props.track.id);
   };
 
   handleDialogClose = () => {
@@ -78,6 +84,9 @@ export default class MainBar extends React.Component {
           <Typography type="title" color="inherit" className={styles.flex}>
             Selected track - {track.name}
           </Typography>
+          <IconButton color="contrast" aria-label="Download" onClick={this.handleClickDownload}>
+            <CloudDownloadIcon/>
+          </IconButton>
         </Toolbar>
       );
     } else {

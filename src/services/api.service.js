@@ -4,7 +4,7 @@ import querystring from 'querystring';
 // const HOST = 'http://localhost';
 // const PORT = 3000;
 // const BASE = `${HOST}:${PORT}`;
-const BASE = 'http://2b935f05.ngrok.io'; // `${HOST}:${PORT}`;
+const BASE = 'http://d8c7fc15.ngrok.io'; // `${HOST}:${PORT}`;
 
 class ApiService {
   constructor() {
@@ -20,6 +20,10 @@ class ApiService {
     data.append('file', file);
 
     return axios.post(`${BASE}/uploads`, data);
+  }
+
+  download(id) {
+    window.location.assign(`${BASE}/routes/export/${id}`);
   }
 
   index() {

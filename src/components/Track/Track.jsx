@@ -59,9 +59,9 @@ export default class Track extends React.Component {
     this.flightPath = new google.maps.Polyline({
       path: flightPlanCoordinates,
       geodesic: true,
-      strokeColor: '#FF0000',
+      strokeColor: '#ff4081',
       strokeOpacity: 1.0,
-      strokeWeight: 2
+      strokeWeight: 3
     });
 
     this.flightPath.setMap(map);
@@ -126,7 +126,7 @@ export default class Track extends React.Component {
               </ListItem>
             )}
             <Divider/>
-            <ListSubheader>Rating</ListSubheader>
+            <ListSubheader>Difficulty level</ListSubheader>
             <ListItem dense className={styles.listElement}>
               <div>
                 {RATINGS.map((level) =>

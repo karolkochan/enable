@@ -1,6 +1,8 @@
 .content {
   display: block;
   width: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .configurator {
@@ -11,6 +13,7 @@
 
 .list {
   background: white;
+  pointer-events: initial;
 }
 
 .listElement {
